@@ -1,8 +1,8 @@
 function generateGame(){
     // const gameBoard = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    let gameBoard = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+    let gameBoard = ["", "", "", "", "", "", "", "", ""];
     const newGameBoard = () => gameBoard = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-    const cpuPick = () => Math.floor(Math.random()*8)
+    const cpuPick = () => Math.floor(Math.random()*9)
     let gameWin = false
 
     const printboard = () => {
@@ -56,13 +56,9 @@ function generateGame(){
         gameBoard[x] = 'X'
         //need to check if index is occupied
         
-        if(gameBoard[cpu] != 'X'){
-            gameBoard[cpu] = "O"
-        }else{
-            console.log(cpu)
-            input(x)
-        }
+        
         printboard()
+        check()
     }
 
     // const playGame = () =>{
@@ -80,13 +76,8 @@ function generateGame(){
     // }
 
 
-    return{playGame, cpuPick}
+    return{gameBoard, newGameBoard, input, cpuPick, gameWin}
 }
-newGame = generateGame()
-newGame.playGame()
-
-
-
 
 function createPlayer(name) {
     const player = name;
@@ -101,3 +92,106 @@ function createPlayer(name) {
 // bill = createPlayer('Bill')
 // bill.increaseScore()
 // console.log(bill.getScore())
+
+function displayBoard(){
+    const game = generateGame()
+
+    const display = document.querySelector('#gameboard')
+    const gameTiles = document.querySelectorAll('.tile')
+    const tile1 = document.querySelector('#one')
+    const tile2 = document.querySelector('#two')
+    const tile3 = document.querySelector('#three')
+    const tile4 = document.querySelector('#four')
+    const tile5 = document.querySelector('#five')
+    const tile6 = document.querySelector('#six')
+    const tile7 = document.querySelector('#seven')
+    const tile8 = document.querySelector('#eight')
+    const tile9 = document.querySelector('#nine')
+    tile1.textContent = game.gameBoard[0]
+    tile2.textContent = game.gameBoard[1]
+    tile3.textContent = game.gameBoard[2]
+    tile4.textContent = game.gameBoard[3]
+    tile5.textContent = game.gameBoard[4]
+    tile6.textContent = game.gameBoard[5]
+    tile7.textContent = game.gameBoard[6]
+    tile8.textContent = game.gameBoard[7]
+    tile9.textContent = game.gameBoard[8]
+
+    //functionality not perfect
+    const cpuDisplay = () =>{
+        let cpu = game.cpuPick()
+        while(gameTiles[cpu].textContent === ""){
+            if(gameTiles[cpu].textContent === ""){
+                gameTiles[cpu].textContent = "O"
+            }
+            else{
+                console.log(cpu)
+                cpuDisplay()
+            }
+        }
+        
+    }
+
+    // gameTiles.addEventListener('mouseover', () =>{
+
+    // })
+    display.addEventListener('click', (event) =>{
+        let target = event.target
+        
+        switch(target.id){
+            case 'one':
+                game.input(0)
+                tile1.textContent = game.gameBoard[0]
+                cpuDisplay()
+                break;
+            case 'two':
+                game.input(1)
+                tile2.textContent = game.gameBoard[1]
+                break;
+            case 'three':
+                game.input(2)
+                tile3.textContent = game.gameBoard[2]
+                break;
+            case 'four':
+                game.input(3)
+                tile4.textContent = game.gameBoard[3]
+                break;
+            case 'five':
+                game.input(4)
+                tile5.textContent = game.gameBoard[4]
+                break;
+            case 'six':
+                game.input(5)
+                tile6.textContent = game.gameBoard[0]
+                break;
+            case 'seven':
+                game.input(6)
+                tile7.textContent = game.gameBoard[6]
+                break;
+            case 'eight':
+                game.input(7)
+                tile8.textContent = game.gameBoard[7]
+                break;
+            case 'nine':
+                game.input(8)
+                tile9.textContent = game.gameBoard[8]
+                break;
+
+        }
+    })
+
+    // tile1.addEventListener('click', () =>{
+    //     game.input(0)
+    //     tile1.textContent = game.gameBoard[0]
+    // })
+    // tile2.addEventListener('click', () =>{
+    //     game.input(1)
+    //     tile2.textContent = game.gameBoard[1]
+    // })
+    // tile3.addEventListener('click', () =>{
+    //     game.input(2)
+    //     tile3.textContent = game.gameBoard[2]
+    // })
+}
+
+displayBoard()
