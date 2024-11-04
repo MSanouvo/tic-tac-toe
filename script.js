@@ -61,20 +61,6 @@ function generateGame(){
         check()
     }
 
-    // const playGame = () =>{
-    //     while(!gameWin){
-    //         newGameBoard()
-    //         let userPick = prompt('Please enter a number between 0 & 8', '')
-    //         if(9 > userPick < -1){
-    //             console.log('Invalid input')
-    //             break
-    //         }
-    //         input(userPick)
-    //         check()
-
-    //     }
-    // }
-
 
     return{gameBoard, newGameBoard, input, cpuPick, gameWin}
 }
@@ -117,81 +103,91 @@ function displayBoard(){
     tile8.textContent = game.gameBoard[7]
     tile9.textContent = game.gameBoard[8]
 
-    //functionality not perfect
     const cpuDisplay = () =>{
         let cpu = game.cpuPick()
-        while(gameTiles[cpu].textContent === ""){
+        let emptyFilter  = game.gameBoard.filter((n) => n === '')
+        chooseTile: {
             if(gameTiles[cpu].textContent === ""){
+                console.log('running 1')
+                game.gameBoard[cpu] = 'O'
                 gameTiles[cpu].textContent = "O"
             }
+            else if(emptyFilter.length === 0){
+                console.log('running 2')
+                break chooseTile
+            }
             else{
-                console.log(cpu)
+                console.log('running 3')
                 cpuDisplay()
             }
-        }
+        } 
+        console.log(emptyFilter)
+        console.log(game.gameBoard)
         
     }
 
-    // gameTiles.addEventListener('mouseover', () =>{
-
-    // })
     display.addEventListener('click', (event) =>{
         let target = event.target
         
         switch(target.id){
             case 'one':
                 game.input(0)
+                game.gameBoard[0] = 'X'
                 tile1.textContent = game.gameBoard[0]
                 cpuDisplay()
                 break;
             case 'two':
                 game.input(1)
+                game.gameBoard[1] = 'X'
                 tile2.textContent = game.gameBoard[1]
+                cpuDisplay()
                 break;
             case 'three':
                 game.input(2)
+                game.gameBoard[2] = 'X'
                 tile3.textContent = game.gameBoard[2]
+                cpuDisplay()
                 break;
             case 'four':
                 game.input(3)
+                game.gameBoard[3] = 'X'
                 tile4.textContent = game.gameBoard[3]
+                cpuDisplay()
                 break;
             case 'five':
                 game.input(4)
+                game.gameBoard[4] = 'X'
                 tile5.textContent = game.gameBoard[4]
+                cpuDisplay()
                 break;
             case 'six':
                 game.input(5)
-                tile6.textContent = game.gameBoard[0]
+                game.gameBoard[5] = 'X'
+                tile6.textContent = game.gameBoard[5]
+                cpuDisplay()
                 break;
             case 'seven':
                 game.input(6)
+                game.gameBoard[6] = 'X'
                 tile7.textContent = game.gameBoard[6]
+                cpuDisplay()
                 break;
             case 'eight':
                 game.input(7)
+                game.gameBoard[7] = 'X'
                 tile8.textContent = game.gameBoard[7]
+                cpuDisplay()
                 break;
             case 'nine':
                 game.input(8)
+                game.gameBoard[8] = 'X'
                 tile9.textContent = game.gameBoard[8]
+                cpuDisplay()
                 break;
 
         }
     })
 
-    // tile1.addEventListener('click', () =>{
-    //     game.input(0)
-    //     tile1.textContent = game.gameBoard[0]
-    // })
-    // tile2.addEventListener('click', () =>{
-    //     game.input(1)
-    //     tile2.textContent = game.gameBoard[1]
-    // })
-    // tile3.addEventListener('click', () =>{
-    //     game.input(2)
-    //     tile3.textContent = game.gameBoard[2]
-    // })
 }
 
 displayBoard()
