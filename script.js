@@ -3,6 +3,7 @@ function generateGame(){
     const newGameBoard = () => gameBoard = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
     const cpuPick = () => Math.floor(Math.random()*9)
     let gameWin = false
+    let winner = ''
 
     //Currently unused
     const printboard = () => {
@@ -16,51 +17,84 @@ function generateGame(){
 
     //To-do -- change the input to take X or O to change winners
     const check = () =>{
+        if(gameBoard[0] === 'O' && gameBoard[1] === 'O' && gameBoard[2] === 'O'){
+            winner = 'Opponent'
+            gameWin = true
+        }
+        else if(gameBoard[3] === 'O' && gameBoard[4] === 'O' && gameBoard[5] === 'O'){
+            winner = 'Opponent'
+            gameWin = true
+        }
+        else if(gameBoard[6] === 'O' && gameBoard[7] === 'O' && gameBoard[8] === 'O'){
+            winner = 'Opponent'
+            gameWin = true
+        }
+        else if(gameBoard[0] === 'O' && gameBoard[3] === 'O' && gameBoard[6] === 'O'){
+            winner = 'Opponent'
+            gameWin = true
+        }
+        else if(gameBoard[1] === 'O' && gameBoard[4] === 'O' && gameBoard[7] === 'O'){
+            winner = 'Opponent'
+            gameWin = true
+        }
+        else if(gameBoard[2] === 'O' && gameBoard[5] === 'O' && gameBoard[8] === 'O'){
+            winner = 'Opponent'
+            gameWin = true
+        }
+        else if(gameBoard[0] === 'O' && gameBoard[4] === 'O' && gameBoard[8] === 'O'){
+            winner = 'Opponent'
+            gameWin = true
+        }
+        else if(gameBoard[2] === 'O' && gameBoard[4] === 'O' && gameBoard[6] === 'O'){
+            winner = 'Opponent'
+            gameWin = true
+        }
+        //Player win scenario
         if(gameBoard[0] === 'X' && gameBoard[1] === 'X' && gameBoard[2] === 'X'){
-            console.log('Player wins')
+            winner = 'Player'
             gameWin = true
         }
         else if(gameBoard[3] === 'X' && gameBoard[4] === 'X' && gameBoard[5] === 'X'){
-            console.log('Someone wins')
+            winner = 'Player'
             gameWin = true
         }
         else if(gameBoard[6] === 'X' && gameBoard[7] === 'X' && gameBoard[8] === 'X'){
-            console.log('Someone wins') 
+            winner = 'Player'
             gameWin = true
         }
         else if(gameBoard[0] === 'X' && gameBoard[3] === 'X' && gameBoard[6] === 'X'){
-            console.log('Someone wins')
+            winner = 'Player'
             gameWin = true
         }
         else if(gameBoard[1] === 'X' && gameBoard[4] === 'X' && gameBoard[7] === 'X'){
-            console.log('Someone wins')
+            winner = 'Player'
             gameWin = true
         }
         else if(gameBoard[2] === 'X' && gameBoard[5] === 'X' && gameBoard[8] === 'X'){
-            console.log('Someone wins')
+            winner = 'Player'
             gameWin = true
         }
         else if(gameBoard[0] === 'X' && gameBoard[4] === 'X' && gameBoard[8] === 'X'){
-            console.log('Someone wins')
+            winner = 'Player'
             gameWin = true
         }
         else if(gameBoard[2] === 'X' && gameBoard[4] === 'X' && gameBoard[6] === 'X'){
-            console.log('Someone wins')
+            winner = 'Player'
             gameWin = true
         }
         console.log(gameWin)
-        return gameWin
+        return gameWin, winner
     }
     
 
     const input = (x) =>{
         gameBoard[x] = 'X'
-        check()
     }
 
 
-    return{gameBoard, newGameBoard, input, cpuPick, 
-        isGameWon: () => gameWin}
+    return{gameBoard, newGameBoard, input, cpuPick, check,
+        isGameWon: () => gameWin,
+        getWinner: () => winner}
 }
 
 function createPlayer(name) {
@@ -84,15 +118,16 @@ function displayBoard(){
     const gameOver = document.querySelector('#game-over')
     const display = document.querySelector('#gameboard')
     const gameTiles = document.querySelectorAll('.tile')
-    const tile1 = document.querySelector('#one')
-    const tile2 = document.querySelector('#two')
-    const tile3 = document.querySelector('#three')
-    const tile4 = document.querySelector('#four')
-    const tile5 = document.querySelector('#five')
-    const tile6 = document.querySelector('#six')
-    const tile7 = document.querySelector('#seven')
-    const tile8 = document.querySelector('#eight')
-    const tile9 = document.querySelector('#nine')
+    const message = document.querySelector('.message')
+    const tile1 = document.querySelector('#zero')
+    const tile2 = document.querySelector('#one')
+    const tile3 = document.querySelector('#two')
+    const tile4 = document.querySelector('#three')
+    const tile5 = document.querySelector('#four')
+    const tile6 = document.querySelector('#five')
+    const tile7 = document.querySelector('#six')
+    const tile8 = document.querySelector('#seven')
+    const tile9 = document.querySelector('#eight')
 
     const displayTiles = () => {
         tile1.textContent = game.gameBoard[0]
@@ -117,7 +152,8 @@ function displayBoard(){
                 gameTiles[cpu].textContent = "O"
             }
             else if(emptyFilter.length === 0){
-                console.log('running 2')
+                message.textContent = 'Tie! No winner.'
+                gameOver.showModal()
                 break chooseTile
             }
             else{
@@ -125,11 +161,11 @@ function displayBoard(){
                 cpuDisplay()
             }
         } 
-        displayWin()
     }
 
     const displayWin = () => {
         if (game.isGameWon() === true){
+            message.textContent = game.getWinner()+' wins!'
             gameOver.showModal()
         }
     }
@@ -142,45 +178,47 @@ function displayBoard(){
             game.input(x)
             game.gameBoard[x] = 'X'
             cpuDisplay()
+            game.check()
+            displayWin()
         }
     }
 
     display.addEventListener('click', (event) =>{
         let target = event.target
         switch(target.id){
-            case 'one':
+            case 'zero':
                 playTurn(0)
                 tile1.textContent = game.gameBoard[0]
                 break;
-            case 'two':
+            case 'one':
                 playTurn(1)
                 tile2.textContent = game.gameBoard[1]
                 break;
-            case 'three':
+            case 'two':
                 playTurn(2)
                 tile3.textContent = game.gameBoard[2]
                 break;
-            case 'four':
+            case 'three':
                 playTurn(3)
                 tile4.textContent = game.gameBoard[3]
                 break;
-            case 'five':
+            case 'four':
                 playTurn(4)
                 tile5.textContent = game.gameBoard[4]
                 break;
-            case 'six':
+            case 'five':
                 playTurn(5)
                 tile6.textContent = game.gameBoard[5]
                 break;
-            case 'seven':
+            case 'six':
                 playTurn(6)
                 tile7.textContent = game.gameBoard[6]
                 break;
-            case 'eight':
+            case 'seven':
                 playTurn(7)
                 tile8.textContent = game.gameBoard[7]
                 break;
-            case 'nine':
+            case 'eight':
                 playTurn(8)
                 tile9.textContent = game.gameBoard[8]
                 break;
