@@ -15,7 +15,6 @@ function generateGame(){
         console.log(gameBoard[6],'|', gameBoard[7],'|', gameBoard[8]);
     }
 
-    //To-do -- change the input to take X or O to change winners
     const check = () =>{
         if(gameBoard[0] === 'O' && gameBoard[1] === 'O' && gameBoard[2] === 'O'){
             winner = 'Opponent'
@@ -86,7 +85,6 @@ function generateGame(){
         return gameWin, winner
     }
     
-
     const input = (x) =>{
         gameBoard[x] = 'X'
     }
@@ -97,6 +95,7 @@ function generateGame(){
         getWinner: () => winner}
 }
 
+//currently unused
 function createPlayer(name) {
     const player = name;
 
@@ -141,7 +140,6 @@ function displayBoard(){
         tile9.textContent = game.gameBoard[8]
     }
     
-    //Add a timer to simulate CPU thinking 
     const cpuDisplay = () =>{
         let cpu = game.cpuPick()
         let emptyFilter  = game.gameBoard.filter((n) => n === '')
@@ -152,6 +150,7 @@ function displayBoard(){
                 gameTiles[cpu].textContent = "O"
             }
             else if(emptyFilter.length === 0){
+                //flawed. Winner could be last tile.
                 message.textContent = 'Tie! No winner.'
                 gameOver.showModal()
                 break chooseTile
@@ -172,12 +171,12 @@ function displayBoard(){
 
     const playTurn = (x) =>{
         if(game.gameBoard[x] != ""){
-            console.log('Invalid Move')
+            console.log('Invalid Move') //turn this into a message users can see
         }
         else{
             game.input(x)
             game.gameBoard[x] = 'X'
-            cpuDisplay()
+            cpuDisplay()//CPU inputs after user wins, not bad but awkward
             game.check()
             displayWin()
         }

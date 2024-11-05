@@ -35,3 +35,24 @@
 .tile:hover{
     background-color: rgba(127, 255, 212, 0.384);
 }
+
+.modal{
+    height: 120px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.end-message{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+#restart{
+    height: 30px;
+    width: 100px;
+    font-weight: bold;
+}
