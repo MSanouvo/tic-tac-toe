@@ -17,38 +17,40 @@ function generateGame(){
     const check = () =>{
         if(gameBoard[0] === 'X' && gameBoard[1] === 'X' && gameBoard[2] === 'X'){
             console.log('Player wins')
-            return gameWin = true
+            //testing gameWin logic
+            gameWin = true
         }
         else if(gameBoard[3] === 'X' && gameBoard[4] === 'X' && gameBoard[5] === 'X'){
             console.log('Someone wins')
-            return gameWin = true
+            gameWin = true
         }
         else if(gameBoard[6] === 'X' && gameBoard[7] === 'X' && gameBoard[8] === 'X'){
             console.log('Someone wins') 
-            return gameWin = true
+            gameWin = true
         }
         else if(gameBoard[0] === 'X' && gameBoard[3] === 'X' && gameBoard[6] === 'X'){
             console.log('Someone wins')
-            return gameWin = true
+            gameWin = true
         }
         else if(gameBoard[1] === 'X' && gameBoard[4] === 'X' && gameBoard[7] === 'X'){
             console.log('Someone wins')
-            return gameWin = true
+            gameWin = true
         }
         else if(gameBoard[2] === 'X' && gameBoard[5] === 'X' && gameBoard[8] === 'X'){
             console.log('Someone wins')
-            return gameWin = true
+            gameWin = true
         }
         else if(gameBoard[0] === 'X' && gameBoard[4] === 'X' && gameBoard[8] === 'X'){
             console.log('Someone wins')
-            return gameWin = true
+            gameWin = true
         }
         else if(gameBoard[2] === 'X' && gameBoard[4] === 'X' && gameBoard[6] === 'X'){
             console.log('Someone wins')
-            return gameWin = true
+            gameWin = true
         }
+        console.log(gameWin)
+        return gameWin
     }
-
     
 
     const input = (x) =>{
@@ -62,7 +64,8 @@ function generateGame(){
     }
 
 
-    return{gameBoard, newGameBoard, input, cpuPick, gameWin}
+    return{gameBoard, newGameBoard, input, cpuPick, 
+        isGameWon: () => gameWin}
 }
 
 function createPlayer(name) {
@@ -82,6 +85,7 @@ function createPlayer(name) {
 function displayBoard(){
     const game = generateGame()
 
+    const gameOver = document.querySelector('#game-over')
     const display = document.querySelector('#gameboard')
     const gameTiles = document.querySelectorAll('.tile')
     const tile1 = document.querySelector('#one')
@@ -123,9 +127,19 @@ function displayBoard(){
         } 
         console.log(emptyFilter)
         console.log(game.gameBoard)
-        
+        console.log(game.isGameWon)
+        displayWin()
+    }
+    //make a function to check if the game is won and display a modal when it is
+    //Modal will show who won and prompt user to play again
+    //button will generate new board
+    const displayWin = () => {
+        if (game.isGameWon() === true){
+            gameOver.showModal()
+        }
     }
 
+    //Need to prevent players from choosing occupied tiles
     display.addEventListener('click', (event) =>{
         let target = event.target
         
