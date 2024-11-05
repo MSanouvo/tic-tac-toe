@@ -56,10 +56,7 @@ function generateGame(){
     const input = (x) =>{
         cpu = cpuPick()
         gameBoard[x] = 'X'
-        //need to check if index is occupied
-        
-        
-        printboard()
+        //printboard()
         check()
     }
 
@@ -83,8 +80,9 @@ function createPlayer(name) {
 // console.log(bill.getScore())
 
 function displayBoard(){
-    const game = generateGame()
+    let game = generateGame()
 
+    const restart = document.querySelector('#restart')
     const gameOver = document.querySelector('#game-over')
     const display = document.querySelector('#gameboard')
     const gameTiles = document.querySelectorAll('.tile')
@@ -97,15 +95,19 @@ function displayBoard(){
     const tile7 = document.querySelector('#seven')
     const tile8 = document.querySelector('#eight')
     const tile9 = document.querySelector('#nine')
-    tile1.textContent = game.gameBoard[0]
-    tile2.textContent = game.gameBoard[1]
-    tile3.textContent = game.gameBoard[2]
-    tile4.textContent = game.gameBoard[3]
-    tile5.textContent = game.gameBoard[4]
-    tile6.textContent = game.gameBoard[5]
-    tile7.textContent = game.gameBoard[6]
-    tile8.textContent = game.gameBoard[7]
-    tile9.textContent = game.gameBoard[8]
+
+    const displayTiles = () => {
+        tile1.textContent = game.gameBoard[0]
+        tile2.textContent = game.gameBoard[1]
+        tile3.textContent = game.gameBoard[2]
+        tile4.textContent = game.gameBoard[3]
+        tile5.textContent = game.gameBoard[4]
+        tile6.textContent = game.gameBoard[5]
+        tile7.textContent = game.gameBoard[6]
+        tile8.textContent = game.gameBoard[7]
+        tile9.textContent = game.gameBoard[8]
+    }
+    
 
     const cpuDisplay = () =>{
         let cpu = game.cpuPick()
@@ -125,9 +127,6 @@ function displayBoard(){
                 cpuDisplay()
             }
         } 
-        console.log(emptyFilter)
-        console.log(game.gameBoard)
-        console.log(game.isGameWon)
         displayWin()
     }
     //make a function to check if the game is won and display a modal when it is
@@ -202,6 +201,15 @@ function displayBoard(){
         }
     })
 
+    restart.addEventListener('click', () =>{
+        game = generateGame()
+        displayTiles()
+        gameOver.close()
+    })
+
+    return{displayTiles}
 }
 
 displayBoard()
+
+
