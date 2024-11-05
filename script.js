@@ -1,10 +1,10 @@
 function generateGame(){
-    // const gameBoard = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     let gameBoard = ["", "", "", "", "", "", "", "", ""];
     const newGameBoard = () => gameBoard = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
     const cpuPick = () => Math.floor(Math.random()*9)
     let gameWin = false
 
+    //Currently unused
     const printboard = () => {
         console.log('')
         console.log(gameBoard[0],'|', gameBoard[1],'|', gameBoard[2]);
@@ -14,10 +14,10 @@ function generateGame(){
         console.log(gameBoard[6],'|', gameBoard[7],'|', gameBoard[8]);
     }
 
+    //To-do -- change the input to take X or O to change winners
     const check = () =>{
         if(gameBoard[0] === 'X' && gameBoard[1] === 'X' && gameBoard[2] === 'X'){
             console.log('Player wins')
-            //testing gameWin logic
             gameWin = true
         }
         else if(gameBoard[3] === 'X' && gameBoard[4] === 'X' && gameBoard[5] === 'X'){
@@ -54,9 +54,7 @@ function generateGame(){
     
 
     const input = (x) =>{
-        cpu = cpuPick()
         gameBoard[x] = 'X'
-        //printboard()
         check()
     }
 
@@ -108,12 +106,12 @@ function displayBoard(){
         tile9.textContent = game.gameBoard[8]
     }
     
-
+    //Add a timer to simulate CPU thinking 
     const cpuDisplay = () =>{
         let cpu = game.cpuPick()
         let emptyFilter  = game.gameBoard.filter((n) => n === '')
         chooseTile: {
-            if(gameTiles[cpu].textContent === ""){
+            if(game.gameBoard[cpu] === ""){
                 console.log('running 1')
                 game.gameBoard[cpu] = 'O'
                 gameTiles[cpu].textContent = "O"
@@ -129,75 +127,63 @@ function displayBoard(){
         } 
         displayWin()
     }
-    //make a function to check if the game is won and display a modal when it is
-    //Modal will show who won and prompt user to play again
-    //button will generate new board
+
     const displayWin = () => {
         if (game.isGameWon() === true){
             gameOver.showModal()
         }
     }
 
-    //Need to prevent players from choosing occupied tiles
+    const playTurn = (x) =>{
+        if(game.gameBoard[x] != ""){
+            console.log('Invalid Move')
+        }
+        else{
+            game.input(x)
+            game.gameBoard[x] = 'X'
+            cpuDisplay()
+        }
+    }
+
     display.addEventListener('click', (event) =>{
         let target = event.target
-        
         switch(target.id){
             case 'one':
-                game.input(0)
-                game.gameBoard[0] = 'X'
+                playTurn(0)
                 tile1.textContent = game.gameBoard[0]
-                cpuDisplay()
                 break;
             case 'two':
-                game.input(1)
-                game.gameBoard[1] = 'X'
+                playTurn(1)
                 tile2.textContent = game.gameBoard[1]
-                cpuDisplay()
                 break;
             case 'three':
-                game.input(2)
-                game.gameBoard[2] = 'X'
+                playTurn(2)
                 tile3.textContent = game.gameBoard[2]
-                cpuDisplay()
                 break;
             case 'four':
-                game.input(3)
-                game.gameBoard[3] = 'X'
+                playTurn(3)
                 tile4.textContent = game.gameBoard[3]
-                cpuDisplay()
                 break;
             case 'five':
-                game.input(4)
-                game.gameBoard[4] = 'X'
+                playTurn(4)
                 tile5.textContent = game.gameBoard[4]
-                cpuDisplay()
                 break;
             case 'six':
-                game.input(5)
-                game.gameBoard[5] = 'X'
+                playTurn(5)
                 tile6.textContent = game.gameBoard[5]
-                cpuDisplay()
                 break;
             case 'seven':
-                game.input(6)
-                game.gameBoard[6] = 'X'
+                playTurn(6)
                 tile7.textContent = game.gameBoard[6]
-                cpuDisplay()
                 break;
             case 'eight':
-                game.input(7)
-                game.gameBoard[7] = 'X'
+                playTurn(7)
                 tile8.textContent = game.gameBoard[7]
-                cpuDisplay()
                 break;
             case 'nine':
-                game.input(8)
-                game.gameBoard[8] = 'X'
+                playTurn(8)
                 tile9.textContent = game.gameBoard[8]
-                cpuDisplay()
                 break;
-
         }
     })
 
