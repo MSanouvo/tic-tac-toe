@@ -6,13 +6,24 @@
 #container{
     border: 1px solid blue;
     padding: 30px;
+    display: grid;
+    grid-template-columns: 100px, 50px, 1fr;
+    gap: 10px;
+}
+
+.announcement{
+    height: 50px;
+    width: 700px;
+    font-size: 2.3rem;
+    text-align: center;
+    justify-self: center;
 }
 
 #gameboard{
     height: 920;
     width: 920;
     display: grid;
-    grid-template-columns: repeat(3, 300px);
+    grid-template-columns: repeat(3, 250px);
     border: 1px solid red;
     justify-self: center;
     align-self: center;
@@ -20,12 +31,13 @@
 
 .header{
     justify-self: center;
+    font-size: 2.7rem;
 }
 
 .tile{
     border: 1px solid black;
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -55,4 +67,8 @@
     height: 30px;
     width: 100px;
     font-weight: bold;
+}
+
+.invalid:hover{
+    background-color: rgba(255, 0, 0, 0.548);
 }

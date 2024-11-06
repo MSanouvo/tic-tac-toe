@@ -118,6 +118,7 @@ function displayBoard(){
     const display = document.querySelector('#gameboard')
     const gameTiles = document.querySelectorAll('.tile')
     const message = document.querySelector('.message')
+    const announcement = document.querySelector('.announcement')
     const tile1 = document.querySelector('#zero')
     const tile2 = document.querySelector('#one')
     const tile3 = document.querySelector('#two')
@@ -127,6 +128,9 @@ function displayBoard(){
     const tile7 = document.querySelector('#six')
     const tile8 = document.querySelector('#seven')
     const tile9 = document.querySelector('#eight')
+    
+    announcement.textContent = "Let's play tic tac toe!"
+    const tileArray = [tile1, tile2, tile3, tile4, tile5, tile6, tile7, tile8, tile9]
 
     const displayTiles = () => {
         tile1.textContent = game.gameBoard[0]
@@ -143,7 +147,7 @@ function displayBoard(){
     const cpuDisplay = () =>{
         let cpu = game.cpuPick()
         let emptyFilter  = game.gameBoard.filter((n) => n === '')
-        chooseTile: {
+        if(game.isGameWon() === false){
             if(game.gameBoard[cpu] === ""){
                 console.log('running 1')
                 game.gameBoard[cpu] = 'O'
@@ -153,7 +157,6 @@ function displayBoard(){
                 //flawed. Winner could be last tile.
                 message.textContent = 'Tie! No winner.'
                 gameOver.showModal()
-                break chooseTile
             }
             else{
                 console.log('running 3')
@@ -172,13 +175,17 @@ function displayBoard(){
     const playTurn = (x) =>{
         if(game.gameBoard[x] != ""){
             console.log('Invalid Move') //turn this into a message users can see
+            tileArray[x].classList.add('invalid')
+            announcement.textContent = 'Invalid selection, please try again'
         }
         else{
             game.input(x)
             game.gameBoard[x] = 'X'
+            game.check()
             cpuDisplay()//CPU inputs after user wins, not bad but awkward
             game.check()
             displayWin()
+            announcement.textContent = ''
         }
     }
 
